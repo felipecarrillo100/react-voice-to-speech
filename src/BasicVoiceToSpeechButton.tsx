@@ -26,9 +26,14 @@ export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ lan
     // ✅ Merge default labels with any user-provided overrides
     const uiLabels = { ...DefaultVoiceToSpeechLabels, ...labels };
 
+    const onClick = (e?: React.FormEvent) => {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        setIsOpen(true);
+    }
+
     return (
         <>
-            <button onClick={() => setIsOpen(true)} disabled={!isSupported} className={className} id={id} style={style}
+            <button onClick={onClick} disabled={!isSupported} className={className} id={id} style={style}
                     aria-label={uiLabels.recordButtonAria}
             >
                 {children || "🎤"}
