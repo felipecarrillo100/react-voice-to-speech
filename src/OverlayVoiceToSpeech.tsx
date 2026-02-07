@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {playErrorSound, playStartSound, playSuccessSound} from "./soundEffects";
-import type {VoiceResult, VoiceStatus} from "./commonInterfaces";
+import {DefaultVoiceToSpeechLabels, VoiceResult, VoiceStatus, VoiceToSpeechLabels} from "./commonInterfaces";
 
 interface OverlayProps {
-    lang: string;
+    language: string;
     onDataReady: (data: VoiceResult) => void;
     onClose: () => void;
+    labels?: VoiceToSpeechLabels;
+    children?: React.ReactNode;
 }
 
-export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady, onClose }) => {
+export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ language, onDataReady, onClose, labels, children }) => {
     const [status, setStatus] = useState<VoiceStatus>('listening');
     const [errorMessage, setErrorMessage] = useState("");
     const [interim, setInterim] = useState("");
@@ -19,6 +21,9 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
     const streamRef = useRef<MediaStream | null>(null);
     const audioContextRef = useRef<AudioContext | null>(null);
     const timeoutRef = useRef<any>(null);
+
+    // ✅ Merge default labels with any user-provided overrides
+    const uiLabels = { ...DefaultVoiceToSpeechLabels, ...labels };
 
     const handleStop = (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent the backdrop's onClose from firing
@@ -42,7 +47,7 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
             setStatus((prevStatus) => {
                 if (prevStatus === 'listening') {
                     playErrorSound();
-                    setErrorMessage("Didn't catch that. Try again?");
+                    setErrorMessage(uiLabels.nothingReceived);
 
                     // 🔥 CRITICAL: Stop the mic so it doesn't trigger onresult/onsuccess
                     if (recognitionRef.current) {
@@ -66,7 +71,7 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
         const recog = new SpeechRecognition();
         recog.continuous = true;
         recog.interimResults = true;
-        recog.lang = lang;
+        recog.lang = language;
 
         recog.onstart = () => {
             playStartSound();
@@ -104,12 +109,12 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
             if (event.error === 'not-allowed') {
                 playErrorSound();
                 setStatus('denied');
-                setErrorMessage("Microphone access denied.");
+                setErrorMessage(uiLabels.errorPermission);
                 setTimeout(() => { if (isMounted) onClose(); }, 2000);
             } else {
                 playErrorSound();
                 setStatus('error');
-                setErrorMessage(`Error: ${event.error}`);
+                setErrorMessage(`${uiLabels.errorPrefix || "Error"}: ${event.error}`);
                 setTimeout(() => { if (isMounted) onClose(); }, 2000);
             }
         };
@@ -144,7 +149,7 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
         }).catch(() => {
             if (isMounted) {
                 setStatus('denied');
-                setErrorMessage("Microphone access denied.");
+                setErrorMessage(uiLabels.errorPermission);
                 setTimeout(() => { if (isMounted) onClose(); }, 2000);
             }
         });
@@ -165,7 +170,7 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
                 {status === 'listening' || status === 'success' ? (
                     <>
                         <div className="interim-text">
-                            {status === 'success' ? "" : (interim || "Listening...")}
+                            {status === 'success' ? "" : (interim || uiLabels.listeningText)}
                         </div>
                         <div className={`mic-section ${status}`}
                              onClick={handleStop}
@@ -175,12 +180,14 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ lang, onDataReady
                                 className="pulse-ring"
                                 style={{ transform: status === 'success' ? 'scale(1.2)' : `scale(${1 + volume / 50})` }}
                             />
-                            <div className="mic-circle"/>
+                            <div className="mic-circle">
+                                {children}
+                            </div>
                         </div>
                     </>
                 ) : (
                     <div className="status-container">
-                        <span className="status-icon">{status === 'denied' ? "🚫" : "⚠️"}</span>
+                        <span className="status-icon">{status === 'denied' ? uiLabels.deniedIcon : uiLabels.errorIcon}</span>
                         <div className="error-message">{errorMessage}</div>
                     </div>
                 )}

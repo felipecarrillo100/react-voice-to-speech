@@ -32,34 +32,89 @@ The easiest way to get started is using the `BasicVoiceToSpeechButton`.
 
 ```tsx
 import { BasicVoiceToSpeechButton } from 'react-voice-to-speech';
+import 'react-voice-to-speech/dist/index.css';
 
 function App() {
-  const handleText = (text: string) => {
-    console.log("Transcribed text:", text);
+  const handleText = (data: VoiceResult) => {
+    console.log("Transcribed text:", data.text);
   };
 
   return (
-    <BasicVoiceToSpeechButton 
-      onTextReady={handleText} 
+    <BasicVoiceToSpeechButton
+      onDataReady={handleText} 
       language="en-US"
     />
   );
 }
-
 ```
+---
 
+### Advance Component
+
+For full customization build your own button in your preferred framework using the overlay `OverlayVoiceToSpeech`.
+
+```tsx
+import React, { useState } from 'react';
+import {useDetectVoiceSupport} from "./useDetectVoiceSupport";
+import {OverlayVoiceToSpeech} from "./OverlayVoiceToSpeech";
+import type {VoiceResult} from "./commonInterfaces";
+import 'react-voice-to-speech/dist/index.css';
+
+interface Props {
+    language?: string;
+    onTextReady: (data: VoiceResult) => void;
+    labels?: {[key:string]: string};
+}
+
+export const YourVoiceToSpeechButton: React.FC<Props> = ({ language = 'en', onTextReady, labels }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const isSupported = useDetectVoiceSupport();
+
+    const handleData = (data: VoiceResult) => {
+        setIsOpen(false);
+        if (typeof onTextReady === "function")
+            onTextReady(data);
+    };
+
+    return (
+        <>
+            { /* Your own button here! */ }
+            <button onClick={() => setIsOpen(true)} disabled={!isSupported}>🎤</button>
+            {isOpen && (
+                <OverlayVoiceToSpeech
+                    language={language}
+                    onDataReady={handleData}
+                    onClose={() => setIsOpen(false)}
+                    labels={labels}
+                />
+            )}
+        </>
+    );
+};
+```
 ---
 
 ## ⚙️ API Reference
 
 ### `BasicVoiceToSpeechButton` Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `onTextReady` | `(text: string) => void` | **Required** | Callback fired when transcription is complete. |
-| `language` | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`). |
-| `className` | `string` | `''` | Custom class for the button. |
-| `continuous` | `boolean` | `false` | Keep listening after the first result is found. |
+| Prop          | Type | Default | Description                                       |
+|---------------| --- | --- |---------------------------------------------------|
+| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.    |
+| `language`        | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`). |
+| `className`   | `string` |  | Custom class for the button.                      |
+| `id`           | `string` |  | Assign an id.                                     |
+| `style`           | `React.CSSProperties` |  | Style                                             |
+| `children`           | `React.ReactNode` |  | Use your own icon                                 |
+| `labels`      | `VoiceToSpeechLabels`      | `` | Labels.                                           |
+
+### `OverlayVoiceToSpeech` Props
+
+| Prop          | Type                          | Default | Description                                       |
+|---------------|-------------------------------| -- |---------------------------------------------------|
+| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.    |
+| `language`    | `string`                      | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`). |
+| `labels`      | `VoiceToSpeechLabels`      | `` | Labels.                                           |
 
 ---
 

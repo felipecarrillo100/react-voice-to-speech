@@ -1,14 +1,14 @@
 import { expect, test, vi } from "vitest";
-import { render } from "vitest-browser-react"; 
+import { render } from "vitest-browser-react";
 // ✅ Use 'vitest/browser' instead of '@vitest/browser/context'
-import { page } from "vitest/browser"; 
+import { page } from "vitest/browser";
 import { BasicVoiceToSpeechButton } from "../src/BasicVoiceToSpeechButton";
 import "../src/styles.scss";
 import React from "react";
 
 test("visual check of the button", async () => {
   render(
-    <BasicVoiceToSpeechButton onTextReady={(text) => console.log(text)} />
+    <BasicVoiceToSpeechButton onDataReady={(text) => console.log(text)} />
   );
 
   const button = page.getByRole('button');
@@ -16,7 +16,7 @@ test("visual check of the button", async () => {
 
   // Let's actually interact with it!
   await button.click();
-  
+
   // Now we can check if your overlay appeared
   // Assuming your overlay has a specific text or role:
   // const overlay = page.getByText(/listening/i);
@@ -25,13 +25,13 @@ test("visual check of the button", async () => {
 
 test("should start listening when clicked", async () => {
   render(
-    <BasicVoiceToSpeechButton onTextReady={() => {}} />
+    <BasicVoiceToSpeechButton onDataReady={() => {}} />
   );
 
   const button = page.getByRole('button');
   await button.click();
 
-  // Replace 'Listening...' with whatever text or aria-label 
+  // Replace 'Listening...' with whatever text or aria-label
   // your Overlay component shows when it's active
   const status = page.getByText(/listening/i);
   await expect.element(status).toBeVisible();
@@ -55,7 +55,7 @@ test("should display text when speech is recognized", async () => {
   vi.stubGlobal('webkitSpeechRecognition', MockRecognition);
   vi.stubGlobal('SpeechRecognition', MockRecognition);
 
-  render(<BasicVoiceToSpeechButton onTextReady={(text) => console.log(text)} />);
+  render(<BasicVoiceToSpeechButton onDataReady={(text) => console.log(text)} />);
 
   // 4. Click the button to trigger your component's 'new SpeechRecognition()'
   const button = page.getByRole('button');
