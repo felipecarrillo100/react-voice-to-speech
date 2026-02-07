@@ -10,8 +10,8 @@ A lightweight, customizable React component and hook for integrated **Voice-to-T
 
 ## 🚀 Features
 
-* **Simple Integration:** Use the pre-built button or the custom hook.
-* **Real-time Overlay:** Built-in UI for recording feedback.
+* **Simple Integration:** Use the pre-built button and stile it to your needs.
+* **Real-time Overlay:** Built-in overlay UI for recording with live feedback.
 * **SCSS Support:** Easily themeable with CSS variables or custom classes.
 * **Modern Testing:** 100% test coverage using Vitest Browser Mode.
 

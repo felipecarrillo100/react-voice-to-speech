@@ -1,14 +1,16 @@
 .voice-overlay-backdrop {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 
-.voice-modal {
+  .voice-modal {
     background: #fff;
     width: 100%;
     max-width: 600px;
@@ -19,20 +21,20 @@
     flex-direction: column;
     align-items: center;
     padding: 40px;
-    overflow: hidden;   /* Prevents text from leaking out of the modal */
-}
+    overflow: hidden; /* Prevents text from leaking out of the modal */
+  }
 
-.interim-text {
+  .interim-text {
     font-size: 24px;
     color: #606060;
     text-align: center;
     width: 100%;
     word-wrap: break-word;
-    z-index: 1;         /* Text stays behind the mic circle */
-}
+    z-index: 1; /* Text stays behind the mic circle */
+  }
 
-/* 🎤 Fixed Mic Section */
-.mic-section {
+  /* 🎤 Fixed Mic Section */
+  .mic-section {
     position: absolute; /* 📍 Pin it! */
     top: 50%;
     left: 50%;
@@ -41,26 +43,28 @@
     justify-content: center;
     align-items: center;
     pointer-events: auto; /* Let clicks pass through to the modal/backdrop */
-}
+  }
 
-.mic-circle {
-    width: 80px; height: 80px;
+  .mic-circle {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: rgba(255, 0, 0, 0.4); /* Your semi-transparent red */
     z-index: 2;
-}
+  }
 
-.pulse-ring {
+  .pulse-ring {
     position: absolute;
-    width: 80px; height: 80px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: rgba(255, 0, 0, 0.2);
     z-index: 1;
     transition: transform 0.05s ease-out;
-}
+  }
 
-/* ⚠️ Fixed Error/Denied Container */
-.status-container {
+  /* ⚠️ Fixed Error/Denied Container */
+  .status-container {
     position: absolute; /* 📍 Also pinned to center */
     top: 50%;
     left: 50%;
@@ -70,24 +74,28 @@
     align-items: center;
     gap: 12px;
     justify-content: center;
-}
+  }
 
-.status-icon {
+  .status-icon {
     font-size: 32px;
-}
+  }
 
-.error-message {
+  .error-message {
     font-size: 20px;
     margin: 0;
     color: #333;
-}
+  }
 
-/* ✅ Success State */
-.mic-section.success .mic-circle {
+  /* ✅ Success State */
+  .mic-section.success .mic-circle {
     background-color: rgba(43, 162, 76, 0.9); /* Greener and more solid on success */
-}
+  }
 
-.mic-section.success .pulse-ring {
+  .mic-section.success .pulse-ring {
     background: rgba(43, 162, 76, 0.4);
     transition: all 0.2s ease;
+  }
+
+
 }
+
