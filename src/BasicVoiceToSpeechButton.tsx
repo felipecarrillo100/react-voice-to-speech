@@ -4,7 +4,7 @@ import {OverlayVoiceToSpeech} from "./OverlayVoiceToSpeech";
 import {DefaultVoiceToSpeechLabels, VoiceResult, VoiceToSpeechLabels} from "./commonInterfaces";
 
 interface VoiceSearchButtonProps {
-    lang?: string;
+    language?: string;
     onDataReady: (data: VoiceResult) => void;
     className?: string;
     id?: string;
@@ -13,7 +13,7 @@ interface VoiceSearchButtonProps {
     labels?: VoiceToSpeechLabels;
 }
 
-export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ lang = 'en', onDataReady, className, id, style, children, labels }) => {
+export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ language = 'en', onDataReady, className, id, style, children, labels }) => {
     const [isOpen, setIsOpen] = useState(false);
     const isSupported = useDetectVoiceSupport();
 
@@ -40,7 +40,7 @@ export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ lan
             </button>
             {isOpen && (
                 <OverlayVoiceToSpeech
-                    language={lang}
+                    language={language}
                     labels={labels}
                     onDataReady={handleData}
                     onClose={() => setIsOpen(false)}

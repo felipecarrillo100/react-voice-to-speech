@@ -1,7 +1,7 @@
 {
   "name": "react-voice-to-speech",
   "description": "A lightweight, customizable React component and hook for voice-to-text recognition using the Web Speech API. Includes a built-in recording overlay.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "sideEffects": [
     "**/*.css"
