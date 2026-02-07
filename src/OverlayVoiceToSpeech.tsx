@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import { createPortal } from 'react-dom';
 import {playErrorSound, playStartSound, playSuccessSound} from "./soundEffects";
 import {DefaultVoiceToSpeechLabels, VoiceResult, VoiceStatus, VoiceToSpeechLabels} from "./commonInterfaces";
@@ -23,7 +23,11 @@ export const OverlayVoiceToSpeech: React.FC<OverlayProps> = ({ language, onDataR
     const timeoutRef = useRef<any>(null);
 
     // ✅ Merge default labels with any user-provided overrides
-    const uiLabels = { ...DefaultVoiceToSpeechLabels, ...labels };
+    // Inside your Component
+    const uiLabels = useMemo(() => ({
+        ...DefaultVoiceToSpeechLabels,
+        ...labels
+    }), [labels]); // 👈 Re-run this logic whenever 'labels' changes
 
     const handleStop = (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent the backdrop's onClose from firing

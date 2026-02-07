@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import { createPortal } from 'react-dom';
 import {PunctuationLangMap} from "./PunctuationLangMap";
 import {playErrorSound, playStartSound, playSuccessSound} from "./soundEffects";
@@ -24,7 +24,11 @@ export const OverlayVoiceToSpeechWithPunctuation: React.FC<OverlayProps> = ({ la
     const timeoutRef = useRef<any>(null);
 
     // ✅ Merge default labels with any user-provided overrides
-    const uiLabels = { ...DefaultVoiceToSpeechLabels, ...labels };
+// Inside your Component
+    const uiLabels = useMemo(() => ({
+        ...DefaultVoiceToSpeechLabels,
+        ...labels
+    }), [labels]); // 👈 Re-run this logic whenever 'labels' changes
 
     const handleStop = (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent the backdrop's onClose from firing

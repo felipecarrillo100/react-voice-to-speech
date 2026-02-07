@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useMemo, useState} from 'react';
 import {useDetectVoiceSupport} from "./useDetectVoiceSupport";
 import {OverlayVoiceToSpeech} from "./OverlayVoiceToSpeech";
 import {DefaultVoiceToSpeechLabels, VoiceResult, VoiceToSpeechLabels} from "./commonInterfaces";
@@ -24,7 +24,11 @@ export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ lan
     };
 
     // ✅ Merge default labels with any user-provided overrides
-    const uiLabels = { ...DefaultVoiceToSpeechLabels, ...labels };
+// Inside your Component
+    const uiLabels = useMemo(() => ({
+        ...DefaultVoiceToSpeechLabels,
+        ...labels
+    }), [labels]); // 👈 Re-run this logic whenever 'labels' changes
 
     const onClick = (e?: React.FormEvent) => {
         if (e) { e.preventDefault(); e.stopPropagation(); }
