@@ -10,6 +10,9 @@ A lightweight, customizable React library for Voice-to-Text functionality powere
 * **Fully Themeable:** Style every aspect using CSS variables or custom classes.
 * **Modern Testing:** 100% test coverage using Vitest Browser Mode for real-world reliability.
 
+## 📦 Live demo
+[Check out the Live Demo on CodeSandbox](https://codesandbox.io/p/sandbox/pppm8q)
+ 
 ---
 
 ## 📦 Installation
@@ -113,11 +116,12 @@ Result: "It is a nice day, isn't it?"
 | Prop          | Type | Default | Description                                              |
 |---------------| --- | --- |----------------------------------------------------------|
 | `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.           |
-| `language`        | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`).        |
+| `language`    | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`).        |
 | `className`   | `string` |  | Custom class for the button.                             |
-| `id`           | `string` |  | Assign an id.                                            |
-| `style`           | `React.CSSProperties` |  | Style                                                    |
-| `children`           | `React.ReactNode` |  | Use your own icon                                        |
+| `id`          | `string` |  | Assign an id.                                            |
+| `title`       | `string` |  | Assign a title.                                          |
+| `style`       | `React.CSSProperties` |  | Style                                                    |
+| `children`    | `React.ReactNode` |  | Use your own icon                                        |
 | `labels`      | `VoiceToSpeechLabels`      | `` | Labels. In case you want to replace the default messages |
 
 ### `OverlayVoiceToSpeech` Props
@@ -170,9 +174,6 @@ MIT © [Your Name/Organization]
 Creating these libraries is my hobie. If you consider my work useful to you, please consider buying me a coffee. Your contribution keeps me motivated to created and maintain these useful libraries.
 
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" name="buy-me-a-coffee" alt="Buy Me A Coffee" width="180">](https://buymeacoffee.com/felipecarrillo100)
-
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=7X3JAPNBQTXZG&amount=5&no_recurring=0&item_name=NPM%2FGitHub+libraries&currency_code=USD)
-
 [![QR](https://raw.githubusercontent.com/felipecarrillo100/bankgreen/main/QR_Code_5Euro.png)](https://www.paypal.com/donate/?business=7X3JAPNBQTXZG&amount=5&no_recurring=0&item_name=NPM%2FGitHub+libraries&currency_code=USD)
-
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" name="buy-me-a-coffee" alt="Buy Me A Coffee" width="180">](https://buymeacoffee.com/felipecarrillo100)

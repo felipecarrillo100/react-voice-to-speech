@@ -11,9 +11,10 @@ interface VoiceSearchButtonProps {
     style?: React.CSSProperties;
     children?: React.ReactNode;
     labels?: VoiceToSpeechLabels;
+    title?: string;
 }
 
-export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ language = 'en', onDataReady, className, id, style, children, labels }) => {
+export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ language = 'en', onDataReady, className, id, style, children, labels, title }) => {
     const [isOpen, setIsOpen] = useState(false);
     const isSupported = useDetectVoiceSupport();
 
@@ -39,6 +40,7 @@ export const BasicVoiceToSpeechButton: React.FC<VoiceSearchButtonProps> = ({ lan
         <>
             <button onClick={onClick} disabled={!isSupported} className={className} id={id} style={style}
                     aria-label={uiLabels.recordButtonAria}
+                    title={title}
             >
                 {children || "🎤"}
             </button>
