@@ -1,19 +1,14 @@
-Since your project is a specialized React component for voice-to-speech, your README should focus on the **Web Speech API** requirements and clear usage instructions.
-
-Here is a professional `README.md` template:
-
----
-
 # react-voice-to-speech
 
-A lightweight, customizable React component and hook for integrated **Voice-to-Text** functionality using the Web Speech API.
+A lightweight, customizable React library for Voice-to-Text functionality powered by the Web Speech API.
 
 ## 🚀 Features
 
-* **Simple Integration:** Use the pre-built button and stile it to your needs.
-* **Real-time Overlay:** Built-in overlay UI for recording with live feedback.
-* **SCSS Support:** Easily themeable with CSS variables or custom classes.
-* **Modern Testing:** 100% test coverage using Vitest Browser Mode.
+* **Simple Integration:** Drop in a pre-built button or build your own with our hooks and overlays.
+* **Real-time Overlay:** Beautiful built-in UI with live volume visualization and transcription feedback.
+* **Smart Punctuation:** Optional engine to convert spoken words (e.g., "comma") into symbols (`,`).
+* **Fully Themeable:** Style every aspect using CSS variables or custom classes.
+* **Modern Testing:** 100% test coverage using Vitest Browser Mode for real-world reliability.
 
 ---
 
@@ -26,7 +21,7 @@ npm install react-voice-to-speech
 
 ## 🛠️ Usage
 
-### Basic Component
+### Getting started
 
 The easiest way to get started is using the `BasicVoiceToSpeechButton`.
 
@@ -49,9 +44,11 @@ function App() {
 ```
 ---
 
-### Advance Component
+### Customization
 
-For full customization build your own button in your preferred framework using the overlay `OverlayVoiceToSpeech`.
+For full control, integrate the `OverlayVoiceToSpeech` into your own custom components.
+Write your own custom react component using your preferred framework (Bootstrap, MUI, etc).
+Usee CSS to modify the `OverlayVoiceToSpeech` background, color, fonts, etc. 
 
 ```tsx
 import React, { useState } from 'react';
@@ -59,6 +56,8 @@ import {useDetectVoiceSupport} from "./useDetectVoiceSupport";
 import {OverlayVoiceToSpeech} from "./OverlayVoiceToSpeech";
 import type {VoiceResult} from "./commonInterfaces";
 import 'react-voice-to-speech/dist/index.css';
+// Add your own css for styling
+import 'yourcssgoeshere.css';
 
 interface Props {
     language?: string;
@@ -93,28 +92,42 @@ export const YourVoiceToSpeechButton: React.FC<Props> = ({ language = 'en', onTe
 };
 ```
 ---
+### Advanced Punctuation Support (Experimental)
+
+By default, the Web Speech API does not automatically convert spoken words into punctuation symbols (e.g., it transcribes "comma" as a word rather than ,).
+
+To solve this, use the OverlayVoiceToSpeechWithPunctuation component. It functions identically to the standard overlay but includes a built-in processing engine that transforms spoken commands into symbols in real-time.
+
+How it works
+The component monitors the transcript for specific keywords based on the language prop and snaps them into the correct punctuation marks.
+
+User says: "It is a nice day comma isn't it question mark"
+
+Result: "It is a nice day, isn't it?"
+
 
 ## ⚙️ API Reference
 
 ### `BasicVoiceToSpeechButton` Props
 
-| Prop          | Type | Default | Description                                       |
-|---------------| --- | --- |---------------------------------------------------|
-| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.    |
-| `language`        | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`). |
-| `className`   | `string` |  | Custom class for the button.                      |
-| `id`           | `string` |  | Assign an id.                                     |
-| `style`           | `React.CSSProperties` |  | Style                                             |
-| `children`           | `React.ReactNode` |  | Use your own icon                                 |
-| `labels`      | `VoiceToSpeechLabels`      | `` | Labels.                                           |
+| Prop          | Type | Default | Description                                              |
+|---------------| --- | --- |----------------------------------------------------------|
+| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.           |
+| `language`        | `string` | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`).        |
+| `className`   | `string` |  | Custom class for the button.                             |
+| `id`           | `string` |  | Assign an id.                                            |
+| `style`           | `React.CSSProperties` |  | Style                                                    |
+| `children`           | `React.ReactNode` |  | Use your own icon                                        |
+| `labels`      | `VoiceToSpeechLabels`      | `` | Labels. In case you want to replace the default messages |
 
 ### `OverlayVoiceToSpeech` Props
 
-| Prop          | Type                          | Default | Description                                       |
-|---------------|-------------------------------| -- |---------------------------------------------------|
-| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.    |
-| `language`    | `string`                      | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`). |
-| `labels`      | `VoiceToSpeechLabels`      | `` | Labels.                                           |
+| Prop          | Type                          | Default | Description                                                             |
+|---------------|-------------------------------| -- |-------------------------------------------------------------------------|
+| `onDataReady` | `(text: VoiceResult) => void` | **Required** | Callback fired when transcription is complete.                          |
+| `language`    | `string`                      | `'en-US'` | BCP 47 language tag (e.g., `'es-ES'`, `'fr-FR'`).                       |
+| `children`           | `React.ReactNode` |  | Allows you to add a custom at the center of the circle |
+| `labels`      | `VoiceToSpeechLabels`      | `` | Labels. In case you want to replace the default messages                |
 
 ---
 
